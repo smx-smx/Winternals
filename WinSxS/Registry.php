@@ -104,16 +104,7 @@ class Registry {
 	}
 	
 	public function __construct(){
-		$this->shell = new COM("WScript.Shell") or die("Requires Windows Scripting Host");
 		$this->regProv = new COM("winmgmts://./root/default:StdRegProv") or die("Requires StdRegProv");
-	}
-	
-	public function ReadReg($key){
-		try {
-			return $this->shell->RegRead($key);
-		} catch(com_exception $ex) {
-			return $this->Enumerate($key);
-		}
 	}
 	
 	public function enumerate($key){
