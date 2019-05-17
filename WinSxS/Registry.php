@@ -119,9 +119,8 @@ class Registry {
 		
 		$names = new Variant;
 		$types = new Variant;
-		try {
-			$this->regProv->EnumValues($root, $rest, $names, $types);
-		} catch(com_exception $ex){
+
+		if($this->regProv->EnumValues($root, $rest, $names, $types) != 0){
 			return false;
 		}
 		

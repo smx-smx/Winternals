@@ -9,7 +9,7 @@ spl_autoload_register(function ($class_name) {
 class ComponentStore {
 	public static function ensureLoaded() {
 		$reg = System::getRegistry();
-		if(!$reg->Enumerate("HKLM\\COMPONENTS")){
+		if(!$reg->enumerate("HKLM\\COMPONENTS")){
 			system("REG LOAD HKLM\\COMPONENTS %windir%\\system32\\config\\COMPONENTS >NUL");
 		}
 	}
