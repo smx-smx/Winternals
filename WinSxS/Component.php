@@ -7,14 +7,12 @@ class Component extends ComponentBase {
 		parent::__construct($reg, $key);
 	}
 	
-	public function getDeployment() : Deployment {
+	public function getDeployments() : array {
 		$deployments = parent::getComponentsByType(ComponentBase::TYPE_CATALOG);
-		if(count($deployments) > 1){
-			throw new Exception("Expected single deployment for {$this->getName()}, found " . count($deployments));
-		}
 		
-		$deploymentName = reset($deployments);
-		return Deployment::fromName($this->reg, $deploymentName);
+		return array_map(function($deploymentName){
+			return Deployment::fromName($this->reg, $deploymentName);
+		}, $deployments);
 	}
 	
 	public function getFiles() : array {

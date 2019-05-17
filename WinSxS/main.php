@@ -55,32 +55,39 @@ function iterManifests(){
 		$tpl = <<<EOS
 	=== {$manifest->getName()} ===
 	=> FilePath      : {$manifest->getFilePath()}
+
+EOS;
 	
-	EOS;
-
 		$cmp = Component::fromName(System::getRegistry(), $manifest->getName());
-		$depl = $cmp->getDeployment();
-		$cat = $depl->getCatalog();
-		
-		$deployments = $cat->getDeployments();
-
-		$tpl .= <<<EOS
+	
+	$tpl.= <<<EOS
 	=== Component ===
 	=> Name : {$cmp->getName()}
 	=> Ident: {$cmp->getIdentity()}
-	=== Catalog ===
-	=> Name : {$cat->getName()}
+
+EOS;
+		
+		$deployments  = $cmp->getDeployments();
+		foreach($deployments as $depl){
+			$cat = $depl->getCatalog();
+		
+			$deployments = $cat->getDeployments();
+
+			$tpl .= <<<EOS
 	=== Deployment ===
 	=> Name : {$depl->getName()}
 	=> AppID: {$depl->getAppID()}
+	=== Catalog ===
+	=> Name : {$cat->getName()}
 	=== Packages ===
 
 EOS;
-		foreach($depl->getPackages() as $pkg){
-			$tpl .= handlePackage($pkg);
-		}
+			foreach($depl->getPackages() as $pkg){
+				$tpl .= handlePackage($pkg);
+			}
 
-		print($tpl);
+			print($tpl);
+		}
 	}
 }
 
