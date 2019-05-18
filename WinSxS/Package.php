@@ -2,6 +2,9 @@
 /**
  * Copyright 2019 Stefano Moioli <smxdev4@gmail.com>
  */
+namespace WinSxS;
+use Common\{Registry, RegistryKey};
+
 class Package extends ComponentBase {
 	
 	public function __construct(Registry $reg, RegistryKey $key){

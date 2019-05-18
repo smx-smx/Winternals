@@ -2,9 +2,10 @@
 /**
  * Copyright 2019 Stefano Moioli <smxdev4@gmail.com>
  */
-spl_autoload_register(function ($class_name) {
-    include $class_name . '.php';
-});
+spl_autoload_register();
+
+use Common\System;
+use WinSxS\{Component, Manifest, Package, SystemFile};
 
 class ComponentStore {
 	public static function ensureLoaded() {

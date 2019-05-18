@@ -2,6 +2,10 @@
 /**
  * Copyright 2019 Stefano Moioli <smxdev4@gmail.com>
  */
+namespace WinSxS;
+
+use Common\{Registry, System};
+
 class Manifest  {
 	private $manifestData;
 	private $manifestFilePath;

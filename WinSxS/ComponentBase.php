@@ -2,6 +2,9 @@
 /**
  * Copyright 2019 Stefano Moioli <smxdev4@gmail.com>
  */
+namespace WinSxS;
+use Common\{Registry, RegistryKey, RegGlobals};
+
 class ComponentBase {
 	const CBS = "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Component Based Servicing\\";
 	const CBS_PACKAGES = self::CBS . "Packages\\";

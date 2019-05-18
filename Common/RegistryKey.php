@@ -1,4 +1,8 @@
 <?php
+namespace Common;
+
+use \Variant;
+
 /**
  * Copyright 2019 Stefano Moioli <smxdev4@gmail.com>
  */

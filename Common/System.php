@@ -1,4 +1,6 @@
 <?php
+namespace Common;
+
 /**
  * Copyright 2019 Stefano Moioli <smxdev4@gmail.com>
  */
@@ -20,5 +22,11 @@ class System {
 		return self::getRegistry()
 				->enumerate("HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion")
 				->read("SystemRoot");
+	}
+	
+	public static function getCurrentControlSet(){
+		return self::getRegistry()
+				->enumerate("HKLM\\SYSTEM\\Select")
+				->read("Current");
 	}
 }

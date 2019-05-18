@@ -2,6 +2,10 @@
 /**
  * Copyright 2019 Stefano Moioli <smxdev4@gmail.com>
  */
+namespace WinSxS;
+use Common\Registry;
+use Common\RegistryKey;
+
 class Catalog extends ComponentBase {	
 	public function __construct(Registry $reg, RegistryKey $key) {
 		parent::__construct($reg, $key);
