@@ -5,13 +5,14 @@
 namespace WinSxS;
 
 use Common\{Registry, System};
+use WinSxS\Assembly\Assembly;
 
 class Manifest  {
-	private $manifestData;
+	private ?Assembly $assembly = null;
 	private $manifestFilePath;
 	
-	/** @var Component **/
-	private $component;
+	private Component $component;
+	private Wcp $wcp;
 	
 	public function getName(){
 		return pathinfo($this->manifestFilePath, PATHINFO_FILENAME);
@@ -20,23 +21,25 @@ class Manifest  {
 	public function __construct($manifestFilePath){
 		$this->manifestFilePath = $manifestFilePath;
 		
-		$this->component = Component::fromName(System::getRegistry(), $this->getName());
+		$this->component = Component::fromFullName(System::getRegistry(), $this->getName());
+		$this->wcp = new Wcp();
 	}
 	
 	public function getFilePath(){
 		return $this->manifestFilePath;
 	}
 	
-	public function getData(){
-		if(is_null($this->manifestData)){
-			$this->manifestData = $this->decompressDelta();
+	public function getData() : Assembly {
+		if(is_null($this->assembly)){
+			$manifestData = $this->decompressDelta();
+			$this->assembly = Assembly::fromData($manifestData);
 		}
-		return $this->manifestData;
+		return $this->assembly;
 	}
 	
 	private function decompressDelta(){
-		$out = shell_exec(__DIR__ . "/internals/undelta.exe " . escapeshellarg($this->manifestFilePath));
-		return substr($out, strpos($out, "<?xml"));
+		$manifestData = \file_get_contents($this->manifestFilePath);
+		return $this->wcp->decompressData($manifestData);
 	}
 
 	/**

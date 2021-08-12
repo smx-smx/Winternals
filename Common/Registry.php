@@ -112,7 +112,7 @@ class Registry {
 		$this->regProv = new COM("winmgmts://./root/default:StdRegProv") or die("Requires StdRegProv");
 	}
 	
-	public function enumerate($key){
+	public function enumerate($key) {
 		$key = $this->toShortKeyPath($key);
 		
 		list($root, $rest) = explode("\\", $key, 2);

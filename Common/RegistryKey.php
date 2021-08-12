@@ -7,17 +7,15 @@ use \Variant;
  * Copyright 2019 Stefano Moioli <smxdev4@gmail.com>
  */
 class RegistryKey {
-	
-	/** @var Registry **/
-	private $reg;
+	private Registry $reg;
 	
 	private $keys = array();
 	private $values = array();
 	
 	private $valuesLower = array();
 	
-	private $parentHive;
-	private $parentPath;
+	private string $parentHive;
+	private string $parentPath;
 	
 	public function __construct($reg, $parentKey, $keys, $values){
 		$this->reg = $reg;
@@ -29,6 +27,11 @@ class RegistryKey {
 				array_values($values));
 		
 		list($this->parentHive, $this->parentPath) = explode("\\", $parentKey, 2);
+	}
+	
+	public function getKey($keyName) {
+		$path = $this->getFullPath() . "\\{$keyName}";
+		return $this->reg->enumerate($path);
 	}
 	
 	public function getHive(){

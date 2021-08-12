@@ -5,9 +5,10 @@
 namespace WinSxS;
 
 use Common\System;
+use \YaLinqo\Enumerable;
 
 class SystemFile {
-	private $filePath;
+	private string $filePath;
 	public function __construct($filePath) {		
 		$this->filePath = str_replace("/", "\\", $filePath);
 	}
@@ -36,8 +37,23 @@ class SystemFile {
 	}
 	
 	public function getComponent() : Component {
-		$componentPath = $this->getHardLinks()[0];
+		$componentStorePath = System::getSysRoot();
+		if(strrchr($componentStorePath, "\\") !== "\\"){
+			$componentStorePath .= "\\";
+		}
+		$componentStorePath .= "WinSxS";
+
+		$links = $this->getHardLinks();
+		
+		$componentPath = Enumerable::from($links)->where(function($path) use($componentStorePath){
+			return stripos($path, $componentStorePath) === 0;
+		})->firstOrDefault(null);
+		
+		if(is_null($componentPath)){
+			return null;
+		}
+
 		$componentName = basename(dirname($componentPath));
-		return Component::fromName(System::getRegistry(), $componentName);
+		return Component::fromFullName(System::getRegistry(), $componentName);
 	}
 }

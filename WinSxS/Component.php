@@ -30,7 +30,17 @@ class Component extends ComponentBase {
 		return parent::readBinaryString("S256H");
 	}
 	
-	public static function fromName(Registry $reg, $componentName){
-		return new Component($reg, $reg->enumerate("HKLM\\COMPONENTS\\DerivedData\\Components\\{$componentName}"));
+	public static function fromFullName(Registry $reg, $componentFullName) : Component {
+		return new Component($reg, $reg->enumerate("HKLM\\COMPONENTS\\DerivedData\\Components\\{$componentFullName}"));
+	}
+	
+	public static function fromName(Registry $reg, $nameOnly){
+		$components = $reg->enumerate("HKLM\\COMPONENTS\\DerivedData\\Components");
+		
+		return \YaLinqo\Enumerable::from($components->keys())
+				->where(function($key) use($nameOnly){
+					return stripos($key, $nameOnly) === 0;
+				})
+				->firstOrDefault(null);
 	}
 }

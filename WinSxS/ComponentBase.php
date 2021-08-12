@@ -23,10 +23,9 @@ class ComponentBase {
 		return $parts;
 	}
 	
-	/** @var Registry **/
-	protected $reg;
+	protected Registry $reg;
 	/** @var RegistryKey **/
-	protected $key;
+	protected RegistryKey $key;
 	
 	private $componentMap;
 	
